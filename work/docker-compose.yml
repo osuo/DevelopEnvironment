@@ -1,0 +1,83 @@
+# jenkins container
+jenkins:
+  image: jenkins
+  ports:
+    - "8080:8080"
+  volumes_from:
+    - jenkins_data
+
+# jenkins data volume container
+jenkins_data:
+  image: jenkins
+  command: echo "jenkins data volume container."
+
+# パーミッションの問題でうまくいかない
+#data:
+  #image: busybox
+  #command: echo "jenkins data volume container."
+  #volumes:
+    #- /var/jenkins_home
+
+# mysql container
+mysql:
+  image: mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=hogehoge
+  ports:
+    - "3306:3306"
+  volumes_from:
+    - mysql_data
+
+# mysql container
+mysql_data:
+  image: mysql
+  command: echo "sonarqube data volume container."
+
+# sonarqube container
+sonarqube:
+  image: sonarqube
+  environment:
+    - SONARQUBE_JDBC_USERNAME=sonar
+    - SONARQUBE_JDBC_PASSWORD=sonar
+    - SONARQUBE_JDBC_URL=jdbc:mysql://mysql/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
+  links:
+    - mysql:mysql
+  ports:
+    - "9000:9000"
+  volumes_from:
+    - sonarqube_data
+
+# sonarqube data volume container
+sonarqube_data:
+  image: sonarqube
+  command: echo "sonarqube data volume container."
+
+# selenium hub container
+selenium-hub:
+  image: selenium/hub
+  ports:
+    - "4444:4444"
+
+# selenium node chrome container
+chrome:
+  image: selenium/node-chrome-debug
+  ports:
+    - "5900:5900"
+  links:
+    - selenium-hub:hub
+
+# selenium node firefox container
+firefox:
+  image: selenium/node-firefox-debug
+  ports:
+    - "5901:5900"
+  links:
+    - selenium-hub:hub
+
+# glassfish
+glassfish:
+  image: glassfish
+  ports:
+    - "14848:4848"
+    - "18080:8080"
+    - "18181:8181"
