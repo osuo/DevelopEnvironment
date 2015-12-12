@@ -11,12 +11,34 @@ jenkins_data:
   image: jenkins
   command: echo "jenkins data volume container."
 
-# パーミッションの問題でうまくいかない
-#data:
-  #image: busybox
-  #command: echo "jenkins data volume container."
-  #volumes:
-    #- /var/jenkins_home
+# sonatype nexus container
+nexus:
+  image: sonatype/nexus:oss
+  environment:
+    - MAX_HEAP=512m
+  volumes_from:
+    - nexus_data
+  ports:
+    - "8081:8081"
+
+# nexus data valume container 
+nexus_data:
+  image: sonatype/nexus:oss
+  command: echo "data-only container for Nexus"
+
+# gitbucket container
+gitbucket:
+  image: f99aq8ove/gitbucket
+  volumes_from:
+    - gitbucket_data
+  ports:
+    - "8088:8080"
+    - "29418:29418"
+
+# gitbucket data value container
+gitbucket_data:
+  image: f99aq8ove/gitbucket
+  command: echo "data-only container for redmine"
 
 # mysql container
 mysql:
@@ -52,6 +74,21 @@ sonarqube_data:
   image: sonarqube
   command: echo "sonarqube data volume container."
 
+# redmine container
+redmine:
+  image: redmine
+  ports:
+    - "3000:3000"
+  links:
+    - mysql:mysql
+  volumes_from:
+    - redmine_data
+
+# redmine data valume container
+redmine_data:
+  image: redmine
+  command: echo "data-only container for redmine"
+
 # selenium hub container
 selenium-hub:
   image: selenium/hub
@@ -59,7 +96,7 @@ selenium-hub:
     - "4444:4444"
 
 # selenium node chrome container
-chrome:
+selenium-chrome:
   image: selenium/node-chrome-debug
   ports:
     - "5900:5900"
@@ -67,7 +104,7 @@ chrome:
     - selenium-hub:hub
 
 # selenium node firefox container
-firefox:
+selenium-firefox:
   image: selenium/node-firefox-debug
   ports:
     - "5901:5900"
