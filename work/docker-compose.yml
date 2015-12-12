@@ -1,10 +1,23 @@
+# 開発環境を構築する
+#
+# 
+
+# nginx-proxy
+proxy:
+  image: jwilder/nginx-proxy
+  ports:
+    - "80:80"
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+
 # jenkins container
 jenkins:
   image: jenkins
-  ports:
-    - "8080:8080"
   volumes_from:
     - jenkins_data
+  environment:
+    - VIRTUAL_HOST=jenkins.dev
+    - VIRTUAL_PORT=8080
 
 # jenkins data volume container
 jenkins_data:
@@ -18,8 +31,9 @@ nexus:
     - MAX_HEAP=512m
   volumes_from:
     - nexus_data
-  ports:
-    - "8081:8081"
+  environment:
+    - VIRTUAL_HOST=nexus.dev
+    - VIRTUAL_PORT=8081
 
 # nexus data valume container 
 nexus_data:
@@ -32,8 +46,10 @@ gitbucket:
   volumes_from:
     - gitbucket_data
   ports:
-    - "8088:8080"
     - "29418:29418"
+  environment:
+    - VIRTUAL_HOST=gitbucket.dev
+    - VIRTUAL_PORT=8080
 
 # gitbucket data value container
 gitbucket_data:
@@ -59,13 +75,13 @@ mysql_data:
 sonarqube:
   image: sonarqube
   environment:
+    - VIRTUAL_HOST=sonar.dev
+    - VIRTUAL_PORT=9000
     - SONARQUBE_JDBC_USERNAME=sonar
     - SONARQUBE_JDBC_PASSWORD=sonar
     - SONARQUBE_JDBC_URL=jdbc:mysql://mysql/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
   links:
     - mysql:mysql
-  ports:
-    - "9000:9000"
   volumes_from:
     - sonarqube_data
 
@@ -77,12 +93,13 @@ sonarqube_data:
 # redmine container
 redmine:
   image: redmine
-  ports:
-    - "3000:3000"
   links:
     - mysql:mysql
   volumes_from:
     - redmine_data
+  environment:
+    - VIRTUAL_HOST=redmine.dev
+    - VIRTUAL_PORT=3000
 
 # redmine data valume container
 redmine_data:

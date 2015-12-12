@@ -21,6 +21,7 @@ RUN rm -f gradle-2.9-bin.zip
 RUN curl -s http://ftp.tsukuba.wide.ad.jp/software/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz -O
 RUN tar xzf apache-maven-3.3.9-bin.tar.gz
 RUN mv apache-maven-3.3.9 /usr/local/
+RUN ln -s /usr/local/apache-maven-3.3.9 /usr/local/maven
 RUN export PATH=$PATH:/usr/local/apache-maven-3.3.9/bin
 RUN rm -f apache-maven-3.3.9-bin.tar.gz
 
