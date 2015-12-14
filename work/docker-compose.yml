@@ -15,6 +15,8 @@ jenkins:
   image: jenkins
   volumes_from:
     - jenkins_data
+#  ports:
+#    - "8080:8080"
   environment:
     - VIRTUAL_HOST=jenkins.dev
     - VIRTUAL_PORT=8080
@@ -140,3 +142,6 @@ glassfish:
     - "14848:4848"
     - "18080:8080"
     - "18181:8181"
+#  environment:
+#    - VIRTUAL_HOST=glassfish.dev
+#    - VIRTUAL_PORT=4848
