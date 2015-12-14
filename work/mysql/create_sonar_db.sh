@@ -7,7 +7,7 @@ fi
 
 #
 DIRNAME=${0%/*}
-MYSQL_CONTAINER=_${PROJECT}_mysql_1
+MYSQL_CONTAINER=${PROJECT}_mysql_1
 MYSQL_PASSWORD=hogehoge
 LOAD_SQL_FILE=./$DIRNAME/create_sonar_db.sql
 
