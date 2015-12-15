@@ -139,9 +139,9 @@ selenium-firefox:
 glassfish:
   image: glassfish
   ports:
-    - "14848:4848"
+#    - "14848:4848"
     - "18080:8080"
     - "18181:8181"
-#  environment:
-#    - VIRTUAL_HOST=glassfish.dev
-#    - VIRTUAL_PORT=4848
+  environment:
+    - VIRTUAL_HOST=glassfish.dev
+    - VIRTUAL_PORT=4848
