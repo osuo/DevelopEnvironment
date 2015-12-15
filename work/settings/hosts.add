@@ -1,0 +1,3 @@
+# /etc/hostsに追加 IPアドレスはdocker-machine ls などで確認
+192.168.99.101  jenkins.dev nexus.dev redmine.dev sonar.dev gitbucket.dev glassfish.dev
+
