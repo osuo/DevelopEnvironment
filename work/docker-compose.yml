@@ -25,6 +25,9 @@ jenkins:
     - nexus:nexus.dev
     - sonarqube:sonar.dev
     - redmine:redmine.dev
+    - tomcat:tomcat.dev
+#  extra_hosts:
+
 
 # jenkins data volume container
 jenkins_data:
@@ -145,3 +148,10 @@ glassfish:
   environment:
     - VIRTUAL_HOST=glassfish.dev
     - VIRTUAL_PORT=4848
+
+# tomcat container
+tomcat:
+  image: tomcat:jre8
+  environment:
+    - VIRTUAL_HOST=tomcat.dev
+    - VIRTUAL_PORT=8080
