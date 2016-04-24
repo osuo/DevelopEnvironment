@@ -18,14 +18,13 @@ jenkins:
 #  ports:
 #    - "8080:8080"
   environment:
-    - VIRTUAL_HOST=jenkins.dev
+    - VIRTUAL_HOST=jenkins.hagi.home
     - VIRTUAL_PORT=8080
   links:
-    - gitbucket:gitbucket.dev
-    - nexus:nexus.dev
-    - sonarqube:sonar.dev
-    - redmine:redmine.dev
-    - tomcat:tomcat.dev
+    - gitbucket:gitbucket.hagi.home
+    - nexus:nexus.hagi.home
+    - sonarqube:sonar.hagi.home
+    - redmine:redmine.hagi.home
 #  extra_hosts:
 
 
@@ -42,7 +41,7 @@ nexus:
   volumes_from:
     - nexus_data
   environment:
-    - VIRTUAL_HOST=nexus.dev
+    - VIRTUAL_HOST=nexus.hagi.home
     - VIRTUAL_PORT=8081
 
 # nexus data valume container 
@@ -58,7 +57,7 @@ gitbucket:
   ports:
     - "29418:29418"
   environment:
-    - VIRTUAL_HOST=gitbucket.dev
+    - VIRTUAL_HOST=gitbucket.hagi.home
     - VIRTUAL_PORT=8080
 
 # gitbucket data value container
@@ -85,7 +84,7 @@ mysql_data:
 sonarqube:
   image: sonarqube
   environment:
-    - VIRTUAL_HOST=sonar.dev
+    - VIRTUAL_HOST=sonar.hagi.home
     - VIRTUAL_PORT=9000
     - SONARQUBE_JDBC_USERNAME=sonar
     - SONARQUBE_JDBC_PASSWORD=sonar
@@ -108,7 +107,7 @@ redmine:
   volumes_from:
     - redmine_data
   environment:
-    - VIRTUAL_HOST=redmine.dev
+    - VIRTUAL_HOST=redmine.hagi.home
     - VIRTUAL_PORT=3000
 
 # redmine data valume container
@@ -116,42 +115,3 @@ redmine_data:
   image: redmine
   command: echo "data-only container for redmine"
 
-# selenium hub container
-selenium-hub:
-  image: selenium/hub
-  ports:
-    - "4444:4444"
-
-# selenium node chrome container
-selenium-chrome:
-  image: selenium/node-chrome-debug
-  ports:
-    - "5900:5900"
-  links:
-    - selenium-hub:hub
-
-# selenium node firefox container
-selenium-firefox:
-  image: selenium/node-firefox-debug
-  ports:
-    - "5901:5900"
-  links:
-    - selenium-hub:hub
-
-# glassfish
-glassfish:
-  image: glassfish
-  ports:
-#    - "14848:4848"
-    - "18080:8080"
-    - "18181:8181"
-  environment:
-    - VIRTUAL_HOST=glassfish.dev
-    - VIRTUAL_PORT=4848
-
-# tomcat container
-tomcat:
-  image: tomcat:jre8
-  environment:
-    - VIRTUAL_HOST=tomcat.dev
-    - VIRTUAL_PORT=8080
