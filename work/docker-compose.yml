@@ -115,3 +115,24 @@ redmine_data:
   image: redmine
   command: echo "data-only container for redmine"
 
+# mailserver
+mailserver:
+  image: tvial/docker-mailserver
+  hostname: mail
+  domainname: hagi.home
+  ports:
+    - "25:25"
+    - "143:143"
+    - "587:587"
+    - "993:993"
+  volumes:
+    - ./spamassassin:/tmp/spamassassin/
+    - ./postfix/:/tmp/postfix/
+  #volumes-from:
+  #  - mail_data
+
+# mailserver data
+#mailserver_data:
+#  image: tvial/docker-mailserver
+#  command: echo "data-only container for mail"
+
