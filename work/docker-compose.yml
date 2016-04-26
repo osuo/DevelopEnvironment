@@ -15,8 +15,9 @@ jenkins:
   image: jenkins
   volumes_from:
     - jenkins_data
-#  ports:
+  ports:
 #    - "8080:8080"
+    - "50000:50000"
   environment:
     - VIRTUAL_HOST=jenkins.hagi.home
     - VIRTUAL_PORT=8080
