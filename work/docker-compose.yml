@@ -103,7 +103,7 @@ sonarqube_data:
 
 # redmine container
 redmine:
-  image: redmine
+  image: redmine:3.0.7
   links:
     - mysql:mysql
   volumes_from:
@@ -111,10 +111,11 @@ redmine:
   environment:
     - VIRTUAL_HOST=redmine.dev
     - VIRTUAL_PORT=3000
+    - REDMINE_NO_DB_MIGRATE=true
 
 # redmine data valume container
 redmine_data:
-  image: redmine
+  image: redmine:3.0.7
   command: echo "data-only container for redmine"
 
 # selenium hub container
