@@ -15,8 +15,9 @@ jenkins:
   image: jenkins
   volumes_from:
     - jenkins_data
-#  ports:
+  ports:
 #    - "8080:8080"
+    - "50000:50000"
   environment:
     - VIRTUAL_HOST=jenkins.dev
     - VIRTUAL_PORT=8080
@@ -25,7 +26,7 @@ jenkins:
     - nexus:nexus.dev
     - sonarqube:sonar.dev
     - redmine:redmine.dev
-    - tomcat:tomcat.dev
+#    - tomcat:tomcat.dev
 #  extra_hosts:
 
 
@@ -64,7 +65,7 @@ gitbucket:
 # gitbucket data value container
 gitbucket_data:
   image: f99aq8ove/gitbucket
-  command: echo "data-only container for redmine"
+  command: echo "data-only container for gitbucket"
 
 # mysql container
 mysql:
@@ -79,7 +80,7 @@ mysql:
 # mysql container
 mysql_data:
   image: mysql
-  command: echo "sonarqube data volume container."
+  command: echo "mysql data volume container."
 
 # sonarqube container
 sonarqube:
@@ -117,41 +118,41 @@ redmine_data:
   command: echo "data-only container for redmine"
 
 # selenium hub container
-selenium-hub:
-  image: selenium/hub
-  ports:
-    - "4444:4444"
+#selenium-hub:
+#  image: selenium/hub
+#  ports:
+#    - "4444:4444"
 
 # selenium node chrome container
-selenium-chrome:
-  image: selenium/node-chrome-debug
-  ports:
-    - "5900:5900"
-  links:
-    - selenium-hub:hub
+#selenium-chrome:
+#  image: selenium/node-chrome-debug
+#  ports:
+#    - "5900:5900"
+#  links:
+#    - selenium-hub:hub
 
 # selenium node firefox container
-selenium-firefox:
-  image: selenium/node-firefox-debug
-  ports:
-    - "5901:5900"
-  links:
-    - selenium-hub:hub
+#selenium-firefox:
+#  image: selenium/node-firefox-debug
+#  ports:
+#    - "5901:5900"
+#  links:
+#    - selenium-hub:hub
 
 # glassfish
-glassfish:
-  image: glassfish
-  ports:
-#    - "14848:4848"
-    - "18080:8080"
-    - "18181:8181"
-  environment:
-    - VIRTUAL_HOST=glassfish.dev
-    - VIRTUAL_PORT=4848
+#glassfish:
+#  image: glassfish
+#  ports:
+##    - "14848:4848"
+#    - "18080:8080"
+#    - "18181:8181"
+#  environment:
+#    - VIRTUAL_HOST=glassfish.dev
+#    - VIRTUAL_PORT=4848
 
 # tomcat container
-tomcat:
-  image: tomcat:jre8
-  environment:
-    - VIRTUAL_HOST=tomcat.dev
-    - VIRTUAL_PORT=8080
+#tomcat:
+#  image: tomcat:jre8
+#  environment:
+#    - VIRTUAL_HOST=tomcat.dev
+#    - VIRTUAL_PORT=8080
