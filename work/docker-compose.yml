@@ -21,11 +21,11 @@ jenkins:
   environment:
     - VIRTUAL_HOST=jenkins.hagi.home
     - VIRTUAL_PORT=8080
-  links:
-    - gitbucket:gitbucket.hagi.home
-    - nexus:nexus.hagi.home
-    - sonarqube:sonar.hagi.home
-    - redmine:redmine.hagi.home
+#  links:
+#    - gitbucket:gitbucket.hagi.home
+#    - nexus:nexus.hagi.home
+#    - sonarqube:sonar.hagi.home
+#    - redmine:redmine.hagi.home
 #  extra_hosts:
 
 
