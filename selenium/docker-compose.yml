@@ -1,0 +1,25 @@
+# Selenium環境を構築する
+#
+
+#selenium hub container
+hub:
+  image: selenium/hub
+  ports:
+    - "4444:4444"
+
+# selenium node chrome container
+chrome:
+  image: selenium/node-chrome-debug
+  ports:
+    - "5900:5900"
+  links:
+    - hub:hub
+
+# selenium node firefox container
+firefox:
+  image: selenium/node-firefox-debug
+  ports:
+    - "5901:5900"
+  links:
+    - hub:hub
+
