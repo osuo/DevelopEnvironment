@@ -1,0 +1,12 @@
+# Tomcat環境を構築する
+#
+
+# tomcat container
+tomcat:
+  image: tomcat:8.0-jre8
+  ports:
+    - "18080:8080"
+  environment:
+    - VIRTUAL_HOST=tomcat.hagi.home
+    - VIRTUAL_PORT=8080
+

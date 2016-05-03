@@ -1,0 +1,7 @@
+# 開発用
+# docker-compose.yml をオーバーライドします。
+
+# tomcat container
+tomcat:
+  build: tomcat
+
