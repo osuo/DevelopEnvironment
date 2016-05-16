@@ -10,12 +10,12 @@ RUN pip install awscli
 RUN rm -f get-pip.py
 
 # gradleのインストール
-RUN curl -s https://downloads.gradle.org/distributions/gradle-2.12-bin.zip -O
-RUN unzip gradle-2.12-bin.zip
+RUN curl -s https://downloads.gradle.org/distributions/gradle-2.13-bin.zip -O
+RUN unzip gradle-2.13-bin.zip
 RUN mkdir -p /usr/local
-RUN mv gradle-2.12 /usr/local/
-RUN ln -s /usr/local/gradle-2.12/bin/gradle /usr/local/bin/
-RUN rm -f gradle-2.12-bin.zip
+RUN mv gradle-2.13 /usr/local/
+RUN ln -s /usr/local/gradle-2.13/bin/gradle /usr/local/bin/
+RUN rm -f gradle-2.13-bin.zip
 
 # mavenのイストール
 RUN curl -s http://ftp.tsukuba.wide.ad.jp/software/apache/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz -O
