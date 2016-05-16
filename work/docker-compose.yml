@@ -12,7 +12,7 @@ proxy:
 
 # jenkins container
 jenkins:
-  image: jenkins
+  image: jenkins:2.3
   volumes_from:
     - jenkins_data
   ports:
@@ -31,7 +31,7 @@ jenkins:
 
 # jenkins data volume container
 jenkins_data:
-  image: jenkins
+  image: jenkins:2.3
   command: echo "jenkins data volume container."
 
 # sonatype nexus container
