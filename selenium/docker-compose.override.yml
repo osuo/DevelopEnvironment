@@ -1,0 +1,14 @@
+# 開発用
+# docker-compose.yml をオーバーライドする
+
+# selenium hub container
+hub:
+  build: selenium/hub
+
+# selenium node chrome container
+chrome:
+  build: selenium/node-chrome-debug
+
+# selenium node firefox container
+firefox:
+  build: selenium/node-firefox-debug

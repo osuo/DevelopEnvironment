@@ -21,14 +21,13 @@ jenkins:
   environment:
     - VIRTUAL_HOST=jenkins.dev
     - VIRTUAL_PORT=8080
-  links:
-    - gitbucket:gitbucket.dev
-    - nexus:nexus.dev
-    - sonarqube:sonar.dev
-    - redmine:redmine.dev
+#  links:
+#    - gitbucket:gitbucket.dev
+#    - nexus:nexus.dev
+#    - sonarqube:sonar.dev
+#    - redmine:redmine.dev
 #    - tomcat:tomcat.dev
 #  extra_hosts:
-
 
 # jenkins data volume container
 jenkins_data:
@@ -117,43 +116,3 @@ redmine:
 redmine_data:
   image: redmine:3.0.7
   command: echo "data-only container for redmine"
-
-# selenium hub container
-#selenium-hub:
-#  image: selenium/hub
-#  ports:
-#    - "4444:4444"
-
-# selenium node chrome container
-#selenium-chrome:
-#  image: selenium/node-chrome-debug
-#  ports:
-#    - "5900:5900"
-#  links:
-#    - selenium-hub:hub
-
-# selenium node firefox container
-#selenium-firefox:
-#  image: selenium/node-firefox-debug
-#  ports:
-#    - "5901:5900"
-#  links:
-#    - selenium-hub:hub
-
-# glassfish
-#glassfish:
-#  image: glassfish
-#  ports:
-##    - "14848:4848"
-#    - "18080:8080"
-#    - "18181:8181"
-#  environment:
-#    - VIRTUAL_HOST=glassfish.dev
-#    - VIRTUAL_PORT=4848
-
-# tomcat container
-#tomcat:
-#  image: tomcat:jre8
-#  environment:
-#    - VIRTUAL_HOST=tomcat.dev
-#    - VIRTUAL_PORT=8080
