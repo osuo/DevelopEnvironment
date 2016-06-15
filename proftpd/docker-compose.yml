@@ -8,6 +8,8 @@ ftpd:
   ports:
     - "20:20"
     - "21:21"
+  volumes:
+    - ./ftp-data:/ftp
   environment:
     - USERNAME=hoge
     - PASSWORD=hoge
