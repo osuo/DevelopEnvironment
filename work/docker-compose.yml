@@ -52,7 +52,7 @@ nexus_data:
 
 # gitbucket container
 gitbucket:
-  image: f99aq8ove/gitbucket
+  image: f99aq8ove/gitbucket:3.14
   volumes_from:
     - gitbucket_data
   ports:
@@ -63,7 +63,7 @@ gitbucket:
 
 # gitbucket data value container
 gitbucket_data:
-  image: f99aq8ove/gitbucket
+  image: f99aq8ove/gitbucket:3.14
   command: echo "data-only container for gitbucket"
 
 # mysql container
