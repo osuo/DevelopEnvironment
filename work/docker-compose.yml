@@ -83,7 +83,7 @@ mysql_data:
 
 # sonarqube container
 sonarqube:
-  image: sonarqube
+  image: sonarqube:5.6
   environment:
     - VIRTUAL_HOST=sonar.dev
     - VIRTUAL_PORT=9000
@@ -97,7 +97,7 @@ sonarqube:
 
 # sonarqube data volume container
 sonarqube_data:
-  image: sonarqube
+  image: sonarqube:5.6
   command: echo "sonarqube data volume container."
 
 # redmine container
