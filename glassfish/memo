@@ -1,0 +1,17 @@
+## glassfish
+
+glassfishは起動後にリモートから管理コンソールを使えるようにしてやります。
+Boot2Docker on Mac などの場合は必須。
+
+起動後、glassfishのコンテナで管理者でのリモートアクセスを有効にする。
+$ docker exec -it dev_glassfish_1 bash 
+
+# asadmin change-admin-password
+# asadmin login
+# asadmin enable-secure-admin
+# asadmin stop-domain
+
+最後のコマンドでGlassfishが停止するので、あらためて起動する。
+
+$ docker-compose -p dev start glassfish
+
