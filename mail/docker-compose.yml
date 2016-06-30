@@ -1,18 +1,28 @@
+version: '2'
+
 # mailserver
-mailserver:
-  image: tvial/docker-mailserver
-  hostname: mail
-  domainname: mail.test.dev
-  ports:
-    - "25:25"
-    - "143:143"
-    - "587:587"
-    - "993:993"
-  volumes:
-    - ./spamassassin:/tmp/spamassassin/
-    - ./postfix/:/tmp/postfix/
+services:
+  mailserver:
+    image: tvial/docker-mailserver
+    hostname: mail
+    domainname: test.dev
+    container_name: mail
+    ports:
+      - "25:25"
+      - "143:143"
+      - "587:587"
+      - "993:993"
+    volumes:
+       - maildata:/var/mail
+       - ./config:/tmp/docker-mailserver/
+  #  - ./spamassassin:/tmp/spamassassin/
+  #  - ./postfix/:/tmp/postfix/
   #volumes-from:
   #  - mail_data
+
+volumes:
+  maildata:
+    driver: local
 
 # mailserver data
 #mailserver_data:
