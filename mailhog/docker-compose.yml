@@ -1,8 +1,13 @@
-mail:
-  #image: mailhog/mailhog
-  build: ./jim
-  ports:
-    - "1025:1025"
-    - "8025:8025"
-#  environment:
-#    - -jim-linkspeed-max=1024
+version: '2'
+
+services:
+  mail:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+  mail_jim:
+    build: ./jim
+    ports:
+      - "1125:1025"
+      - "8125:8025"
