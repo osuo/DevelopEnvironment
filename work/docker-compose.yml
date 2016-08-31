@@ -27,7 +27,8 @@ jenkins:
 #    - sonarqube:sonar.dev
 #    - redmine:redmine.dev
 #    - tomcat:tomcat.dev
-#  extra_hosts:
+  extra_hosts:
+    - "redmine.dev jenkins.dev sonar.dev gitbucket.dev nexus.dev jenkins.order.dev sonar.order.dev alminium.order.dev mail.test.dev:10.193.68.22"
 
 # jenkins data volume container
 jenkins_data:
@@ -94,6 +95,8 @@ sonarqube:
     - mysql:mysql
   volumes_from:
     - sonarqube_data
+  ports:
+    - "9000:9000"
 
 # sonarqube data volume container
 sonarqube_data:
