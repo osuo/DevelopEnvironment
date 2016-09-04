@@ -4,7 +4,7 @@
 
 # nginx-proxy
 proxy:
-  image: jwilder/nginx-proxy
+  image: jwilder/nginx-proxy:0.4.0
   ports:
     - "80:80"
   volumes:
@@ -28,7 +28,8 @@ jenkins:
 #    - redmine:redmine.dev
 #    - tomcat:tomcat.dev
   extra_hosts:
-    - "redmine.dev jenkins.dev sonar.dev gitbucket.dev nexus.dev jenkins.order.dev sonar.order.dev alminium.order.dev mail.test.dev:10.193.68.22"
+#    - "redmine.dev jenkins.dev sonar.dev gitbucket.dev nexus.dev jenkins.order.dev sonar.order.dev alminium.order.dev mail.test.dev:10.193.68.22"
+    - "redmine.hagi.home jenkins.hagi.home sonar.hagi.home nexus.hagi.home alminium.hagi.home:192.168.99.100"
 
 # jenkins data volume container
 jenkins_data:
@@ -37,7 +38,7 @@ jenkins_data:
 
 # sonatype nexus container
 nexus:
-  image: sonatype/nexus:oss
+  image: sonatype/nexus:2.13.0-01
   environment:
     - MAX_HEAP=512m
   volumes_from:
@@ -48,7 +49,7 @@ nexus:
 
 # nexus data valume container 
 nexus_data:
-  image: sonatype/nexus:oss
+  image: sonatype/nexus:2.13.0-01
   command: echo "data-only container for Nexus"
 
 # gitbucket container
@@ -69,7 +70,7 @@ gitbucket_data:
 
 # mysql container
 mysql:
-  image: mysql
+  image: mysql:5.7.14
   environment:
     - MYSQL_ROOT_PASSWORD=hogehoge
   ports:
@@ -79,7 +80,7 @@ mysql:
 
 # mysql container
 mysql_data:
-  image: mysql
+  image: mysql:5.7.14
   command: echo "mysql data volume container."
 
 # sonarqube container
@@ -113,7 +114,6 @@ redmine:
   environment:
     - VIRTUAL_HOST=redmine.hagi.home
     - VIRTUAL_PORT=3000
-    - REDMINE_NO_DB_MIGRATE=true
 
 # redmine data valume container
 redmine_data:
