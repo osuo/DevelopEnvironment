@@ -12,7 +12,7 @@ proxy:
 
 # jenkins container
 jenkins:
-  image: jenkins:2.3
+  image: jenkinsci/jenkins:2.9
   volumes_from:
     - jenkins_data
   ports:
@@ -22,16 +22,17 @@ jenkins:
     - VIRTUAL_HOST=jenkins.hagi.home
     - VIRTUAL_PORT=8080
 #  links:
-#    - gitbucket:gitbucket.hagi.home
-#    - nexus:nexus.hagi.home
-#    - sonarqube:sonar.hagi.home
-#    - redmine:redmine.hagi.home
-#  extra_hosts:
-
+#    - gitbucket:gitbucket.dev
+#    - nexus:nexus.dev
+#    - sonarqube:sonar.dev
+#    - redmine:redmine.dev
+#    - tomcat:tomcat.dev
+  extra_hosts:
+    - "redmine.dev jenkins.dev sonar.dev gitbucket.dev nexus.dev jenkins.order.dev sonar.order.dev alminium.order.dev mail.test.dev:10.193.68.22"
 
 # jenkins data volume container
 jenkins_data:
-  image: jenkins:2.3
+  image: jenkinsci/jenkins:2.9
   command: echo "jenkins data volume container."
 
 # sonatype nexus container
@@ -52,7 +53,7 @@ nexus_data:
 
 # gitbucket container
 gitbucket:
-  image: f99aq8ove/gitbucket
+  image: f99aq8ove/gitbucket:3.14
   volumes_from:
     - gitbucket_data
   ports:
@@ -63,8 +64,8 @@ gitbucket:
 
 # gitbucket data value container
 gitbucket_data:
-  image: f99aq8ove/gitbucket
-  command: echo "data-only container for redmine"
+  image: f99aq8ove/gitbucket:3.14
+  command: echo "data-only container for gitbucket"
 
 # mysql container
 mysql:
@@ -79,11 +80,11 @@ mysql:
 # mysql container
 mysql_data:
   image: mysql
-  command: echo "sonarqube data volume container."
+  command: echo "mysql data volume container."
 
 # sonarqube container
 sonarqube:
-  image: sonarqube
+  image: sonarqube:5.6
   environment:
     - VIRTUAL_HOST=sonar.hagi.home
     - VIRTUAL_PORT=9000
@@ -94,15 +95,17 @@ sonarqube:
     - mysql:mysql
   volumes_from:
     - sonarqube_data
+  ports:
+    - "9000:9000"
 
 # sonarqube data volume container
 sonarqube_data:
-  image: sonarqube
+  image: sonarqube:5.6
   command: echo "sonarqube data volume container."
 
 # redmine container
 redmine:
-  image: redmine
+  image: redmine:3.0.7
   links:
     - mysql:mysql
   volumes_from:
@@ -110,30 +113,9 @@ redmine:
   environment:
     - VIRTUAL_HOST=redmine.hagi.home
     - VIRTUAL_PORT=3000
+    - REDMINE_NO_DB_MIGRATE=true
 
 # redmine data valume container
 redmine_data:
-  image: redmine
+  image: redmine:3.0.7
   command: echo "data-only container for redmine"
-
-# mailserver
-mailserver:
-  image: tvial/docker-mailserver
-  hostname: mail
-  domainname: hagi.home
-  ports:
-    - "25:25"
-    - "143:143"
-    - "587:587"
-    - "993:993"
-  volumes:
-    - ./spamassassin:/tmp/spamassassin/
-    - ./postfix/:/tmp/postfix/
-  #volumes-from:
-  #  - mail_data
-
-# mailserver data
-#mailserver_data:
-#  image: tvial/docker-mailserver
-#  command: echo "data-only container for mail"
-

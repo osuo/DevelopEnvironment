@@ -1,0 +1,15 @@
+# FTP環境を構築する
+# Data Volume Container はなし。
+# つまり使い捨てコンテナです。
+
+# proFTPD container
+ftpd:
+  image: andrewvos/docker-proftpd
+  ports:
+    - "20:20"
+    - "21:21"
+  volumes:
+    - ./ftp-data:/ftp
+  environment:
+    - USERNAME=hoge
+    - PASSWORD=hoge
