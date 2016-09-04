@@ -19,7 +19,7 @@ jenkins:
 #    - "8080:8080"
     - "50000:50000"
   environment:
-    - VIRTUAL_HOST=jenkins.hagi.home
+    - VIRTUAL_HOST=jenkins.dev
     - VIRTUAL_PORT=8080
 #  links:
 #    - gitbucket:gitbucket.dev
@@ -28,8 +28,7 @@ jenkins:
 #    - redmine:redmine.dev
 #    - tomcat:tomcat.dev
   extra_hosts:
-#    - "redmine.dev jenkins.dev sonar.dev gitbucket.dev nexus.dev jenkins.order.dev sonar.order.dev alminium.order.dev mail.test.dev:10.193.68.22"
-    - "redmine.hagi.home jenkins.hagi.home sonar.hagi.home nexus.hagi.home alminium.hagi.home:192.168.99.100"
+    - "redmine.dev jenkins.dev sonar.dev gitbucket.dev nexus.dev jenkins.order.dev sonar.order.dev alminium.order.dev mail.test.dev:192.168.99.100"
 
 # jenkins data volume container
 jenkins_data:
@@ -44,7 +43,7 @@ nexus:
   volumes_from:
     - nexus_data
   environment:
-    - VIRTUAL_HOST=nexus.hagi.home
+    - VIRTUAL_HOST=nexus.dev
     - VIRTUAL_PORT=8081
 
 # nexus data valume container 
@@ -60,7 +59,7 @@ gitbucket:
   ports:
     - "29418:29418"
   environment:
-    - VIRTUAL_HOST=gitbucket.hagi.home
+    - VIRTUAL_HOST=gitbucket.dev
     - VIRTUAL_PORT=8080
 
 # gitbucket data value container
@@ -87,7 +86,7 @@ mysql_data:
 sonarqube:
   image: sonarqube:5.6
   environment:
-    - VIRTUAL_HOST=sonar.hagi.home
+    - VIRTUAL_HOST=sonar.dev
     - VIRTUAL_PORT=9000
     - SONARQUBE_JDBC_USERNAME=sonar
     - SONARQUBE_JDBC_PASSWORD=sonar
@@ -112,7 +111,7 @@ redmine:
   volumes_from:
     - redmine_data
   environment:
-    - VIRTUAL_HOST=redmine.hagi.home
+    - VIRTUAL_HOST=redmine.dev
     - VIRTUAL_PORT=3000
 
 # redmine data valume container
