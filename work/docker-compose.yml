@@ -45,6 +45,8 @@ nexus:
   environment:
     - VIRTUAL_HOST=nexus.dev
     - VIRTUAL_PORT=8081
+  ports:
+    - "18081:8081"
 
 # nexus data valume container 
 nexus_data:
