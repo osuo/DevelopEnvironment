@@ -13,7 +13,7 @@ proxy:
 
 # jenkins container
 jenkins:
-  image: jenkinsci/jenkins:2.20
+  build: jenkins
   volumes_from:
     - jenkins_data
   ports:
@@ -29,11 +29,14 @@ jenkins:
 #    - redmine:redmine.dev
 #    - tomcat:tomcat.dev
   extra_hosts:
-    - "redmine.dev jenkins.dev sonar.dev gitbucket.dev nexus.dev jenkins.order.dev sonar.order.dev alminium.order.dev mail.test.dev:192.168.99.100"
+    - "redmine.dev jenkins.dev sonar.dev gitbucket.dev nexus.dev:10.193.68.22"
+    - "sonar.order.dev alminium.order.dev:10.193.68.22"
+    - "alminium.mam.dev:10.193.68.22"
+    - "mail.test.dev:10.193.68.22"
 
 # jenkins data volume container
 jenkins_data:
-  image: jenkinsci/jenkins:2.20
+  build: jenkins
   command: echo "jenkins data volume container."
 
 # sonatype nexus container

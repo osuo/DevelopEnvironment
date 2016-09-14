@@ -1,7 +1,0 @@
-# 開発用
-# docker-compose.yml をオーバーライドします。
-
-# jenkins container
-jenkins:
-  build: jenkins
-

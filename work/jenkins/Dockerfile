@@ -1,4 +1,4 @@
-FROM jenkinsci/jenkins:2.20
+FROM jenkinsci/jenkins:2.22
 
 # rootユーザにしてから、Aws CLI をインストールする
 USER root
