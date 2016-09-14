@@ -4,7 +4,8 @@
 
 # nginx-proxy
 proxy:
-  image: jwilder/nginx-proxy:0.4.0
+  #image: jwilder/nginx-proxy:0.4.0
+  build: proxy
   ports:
     - "80:80"
   volumes:
