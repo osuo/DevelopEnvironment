@@ -9,7 +9,7 @@ ftpd:
     - "20:20"
     - "21:21"
   volumes:
-    - ./ftp-data:/ftp
+    - ftp-data:/ftp
   environment:
     - USERNAME=hoge
     - PASSWORD=hoge
