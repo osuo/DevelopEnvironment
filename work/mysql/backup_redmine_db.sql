@@ -1,0 +1,1 @@
+mysqldump -h 10.193.68.22 -uroot -phogehoge redmine > redmie.db.dump
