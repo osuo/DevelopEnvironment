@@ -1,126 +1,100 @@
 # 開発環境を構築する
-#
-#
+version: "3.0"
 
-# nginx-proxy
-proxy:
-  #image: jwilder/nginx-proxy:0.4.0
-  build: proxy
-  ports:
-    - "80:80"
-  volumes:
-    - /var/run/docker.sock:/tmp/docker.sock:ro
+services:
 
-# jenkins container
-jenkins:
-  build: jenkins
-  volumes_from:
-    - jenkins_data
-  ports:
-#    - "8080:8080"
-    - "50000:50000"
-  environment:
-    - VIRTUAL_HOST=jenkins.dev
-    - VIRTUAL_PORT=8080
-#  links:
-#    - gitbucket:gitbucket.dev
-#    - nexus:nexus.dev
-#    - sonarqube:sonar.dev
-#    - redmine:redmine.dev
-#    - tomcat:tomcat.dev
-  extra_hosts:
-    - "redmine.dev jenkins.dev sonar.dev gitbucket.dev nexus.dev:10.193.68.22"
-    - "sonar.order.dev alminium.order.dev:10.193.68.22"
-    - "alminium.mam.dev:10.193.68.22"
-    - "mail.test.dev:10.193.68.22"
+  # nginx-proxy
+  proxy:
+    build: proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
 
-# jenkins data volume container
-jenkins_data:
-  build: jenkins
-  command: echo "jenkins data volume container."
+  # jenkins container
+  jenkins:
+    build: jenkins
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    environment:
+      - VIRTUAL_HOST=jenkins.dev
+      - VIRTUAL_PORT=8080
+    extra_hosts:
+      - "redmine.dev jenkins.dev sonar.dev gitbucket.dev nexus.dev:10.193.68.22"
+      - "sonar.order.dev alminium.order.dev:10.193.68.22"
+      - "alminium.mam.dev:10.193.68.22"
+      - "mail.test.dev:10.193.68.22"
 
-# sonatype nexus container
-nexus:
-  image: sonatype/nexus:2.13.0-01
-  environment:
-    - MAX_HEAP=512m
-  volumes_from:
-    - nexus_data
-  environment:
-    - VIRTUAL_HOST=nexus.dev
-    - VIRTUAL_PORT=8081
-  ports:
-    - "18081:8081"
+  # sonatype nexus container
+  nexus:
+    image: sonatype/nexus:2.13.0-01
+    environment:
+      - MAX_HEAP=512m
+    volumes:
+      - sonatype_work:/sonatype-work
+    environment:
+      - VIRTUAL_HOST=nexus.dev
+      - VIRTUAL_PORT=8081
+    ports:
+      - "18081:8081"
 
-# nexus data valume container 
-nexus_data:
-  image: sonatype/nexus:2.13.0-01
-  command: echo "data-only container for Nexus"
+  # gitbucket container
+  gitbucket:
+    image: f99aq8ove/gitbucket:3.14
+    volumes:
+      - gitbucket_data:/gitbucket
+    ports:
+      - "29418:29418"
+    environment:
+      - VIRTUAL_HOST=gitbucket.dev
+      - VIRTUAL_PORT=8080
 
-# gitbucket container
-gitbucket:
-  image: f99aq8ove/gitbucket:3.14
-  volumes_from:
-    - gitbucket_data
-  ports:
-    - "29418:29418"
-  environment:
-    - VIRTUAL_HOST=gitbucket.dev
-    - VIRTUAL_PORT=8080
+  # mysql container
+  mysql:
+    image: mysql:5.7.14
+    environment:
+      - MYSQL_ROOT_PASSWORD=hogehoge
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
 
-# gitbucket data value container
-gitbucket_data:
-  image: f99aq8ove/gitbucket:3.14
-  command: echo "data-only container for gitbucket"
+  # sonarqube container
+  sonarqube:
+    image: sonarqube:5.6
+    environment:
+      - VIRTUAL_HOST=sonar.dev
+      - VIRTUAL_PORT=9000
+      - SONARQUBE_JDBC_USERNAME=sonar
+      - SONARQUBE_JDBC_PASSWORD=sonar
+      - SONARQUBE_JDBC_URL=jdbc:mysql://mysql/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
+    links:
+      - mysql:mysql
+    volumes:
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_data:/opt/sonarqube/data
+    ports:
+      - "9000:9000"
 
-# mysql container
-mysql:
-  image: mysql:5.7.14
-  environment:
-    - MYSQL_ROOT_PASSWORD=hogehoge
-  ports:
-    - "3306:3306"
-  volumes_from:
-    - mysql_data
+  # redmine container
+  redmine:
+    image: redmine:3.0.7
+    links:
+      - mysql:mysql
+    volumes:
+      - redmine_data:/usr/src/redmine/files
+    environment:
+      - VIRTUAL_HOST=redmine.dev
+      - VIRTUAL_PORT=3000
 
-# mysql container
-mysql_data:
-  image: mysql:5.7.14
-  command: echo "mysql data volume container."
-
-# sonarqube container
-sonarqube:
-  image: sonarqube:5.6
-  environment:
-    - VIRTUAL_HOST=sonar.dev
-    - VIRTUAL_PORT=9000
-    - SONARQUBE_JDBC_USERNAME=sonar
-    - SONARQUBE_JDBC_PASSWORD=sonar
-    - SONARQUBE_JDBC_URL=jdbc:mysql://mysql/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
-  links:
-    - mysql:mysql
-  volumes_from:
-    - sonarqube_data
-  ports:
-    - "9000:9000"
-
-# sonarqube data volume container
-sonarqube_data:
-  image: sonarqube:5.6
-  command: echo "sonarqube data volume container."
-
-# redmine container
-redmine:
-  image: redmine:3.0.7
-  links:
-    - mysql:mysql
-  volumes_from:
-    - redmine_data
-  environment:
-    - VIRTUAL_HOST=redmine.dev
-    - VIRTUAL_PORT=3000
-
-# redmine data valume container
-redmine_data:
-  image: redmine:3.0.7
-  command: echo "data-only container for redmine"
+volumes:
+  jenkins_home:
+  sonatype_work:
+  gitbucket_data:
+  mysql_data:
+  sonarqube_extensions:
+  sonarqube_data:
+  redmine_data:
