@@ -1,0 +1,86 @@
+version: '3.1'
+
+services:
+  alminium_mysql:
+    # build: ./mysql
+    image: mysql:8.0
+    restart: always
+    ports:
+      - "13306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=hogehoge
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=alminium
+      - MYSQL_USER=alminium
+      - MYSQL_PASSWORD=alminium
+    networks:
+      - alminium_net
+    volumes:
+      - alminium_mysql:/var/lib/mysql
+      - alminium_mysql_log:/var/log/mysql
+
+  #jenkins:
+  #  restart: always
+  #  build: ./jenkins
+  #  ports:
+  #    - "50000:50000"
+  #  links:
+  #    - db:db
+  #  environment:
+  #    - JAVA_OPTS="-Djava.awt.headless=true"
+  #    - JENKINS_OPTS="--prefix=/jenkins"
+  #  volumes:
+  #    - /home/jenkins:/var/jenkins_home
+
+  alminium:
+    image: ayapapa/docker-alminium
+    restart: always
+    ports:
+      - "10080:80"
+      - "10443:443"
+    depends_on:
+      - alminium_mysql
+    links:
+      - alminium_mysql:db
+      # - jenkins:jenkins
+    environment:
+      - ALM_HOSTNAME=www.example.com
+      - ALM_RELATIVE_URL_ROOT=
+      - ALM_PORT=10080
+      # if ALM_ENABLE_SSL is set to y, self-signed certification will be used.
+      - ALM_ENABLE_SSL=N
+      - ALM_ENABLE_AUTO_BACKUP=y
+      - ALM_BACKUP_MINUTE=0
+      - ALM_BACKUP_HOUR=3
+      - ALM_BACKUP_DAY=*/2
+      - ALM_BACKUP_EXPIRY=14
+      - SMTP_ENABLED=false
+      - SMTP_ENALBLE_STARTTLS_AUTO=true
+      - SMTP_ADDRESS=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_DOMAIN=smtp.gmail.com
+      - SMTP_AUTHENTICATION=:login
+      - SMTP_USER_NAME=example@gmail.com
+      - SMTP_PASS=****
+      # - JENKINS_ENABLED=true
+      # - JENKINS_URL=http://jenkins:8080/jenkins
+    networks:
+      - alminium_net
+    volumes:
+      - alminium_files:/opt/alminium/files
+      - alminium_repo:/var/opt/alminium
+      - alminium_log:/var/log/alminium
+      - alminium_backup:/var/opt/alminium-backup
+      - ./update.sh:/home/alm/update.sh
+
+networks:
+  alminium_net:
+    driver: bridge
+
+volumes:
+  alminium_mysql:
+  alminium_mysql_log:
+  alminium_files:
+  alminium_repo:
+  alminium_log:
+  alminium_backup:
