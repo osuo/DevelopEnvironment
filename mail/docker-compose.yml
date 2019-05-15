@@ -5,8 +5,8 @@ services:
   mailserver:
     image: tvial/docker-mailserver
     hostname: mail
-    domainname: test.dev
-    container_name: mail
+    domainname: test.work
+    # container_name: mail
     ports:
       - "25:25"
       - "143:143"
@@ -14,7 +14,8 @@ services:
       - "993:993"
     volumes:
        - maildata:/var/mail
-       - ./config:/tmp/docker-mailserver/
+       - mailconfig:/tmp/docker-mailserver/
+  #     - ./config:/tmp/docker-mailserver/
   #  - ./spamassassin:/tmp/spamassassin/
   #  - ./postfix/:/tmp/postfix/
   #volumes-from:
@@ -22,7 +23,7 @@ services:
 
 volumes:
   maildata:
-    driver: local
+  mailconfig:
 
 # mailserver data
 #mailserver_data:
