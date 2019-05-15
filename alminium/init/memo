@@ -1,0 +1,3 @@
+docker run -i --link work_alminium_mysql:db --rm --network work_alminium_net -v C:\Git\DevelopEnvironment\alminium\init:/init mysql sh -c "exec mysql -h db -uroot -phogehoge < /init/create_alminium_db.sql"
+
+docker run -it --link work_alminium_mysql:db --rm --network work_alminium_net -v C:\Git\DevelopEnvironment\alminium\init:/init mysql sh -c "exec mysql -h db -uroot -phogehoge"
